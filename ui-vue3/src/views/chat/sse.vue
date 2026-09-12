@@ -110,6 +110,7 @@ const contentInfo = computed(() => {
       </Button>
       <!-- -------------- Content Concat -------------- -->
       <Bubble v-if="contentInfo" :content="contentInfo" />
+      
     </div>
     <div>
       <ThoughtChain

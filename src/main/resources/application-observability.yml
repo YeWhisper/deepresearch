@@ -30,7 +30,7 @@ otel:
     sampler: always_on
   metrics:
     exporter: otlp
-  # logs exportation inhibited for langfuse currently cannot support
+  # 目前，由于langfuse的原因，日志导出功能无法使用。
   logs:
     exporter: none
   exporter:
@@ -40,6 +40,6 @@ otel:
       # endpoint: "https://cloud.langfuse.com/api/public/otel" # 🇪🇺 EU data region
       # endpoint: "http://localhost:3000/api/public/otel" # 🏠 Local deployment (>= v3.22.0)
       headers:
-        # Replace `YOUR_BASE64_ENCODED_CREDENTIALS` with your Base64-encoded `public_key:secret_key`.
+        # Replace `YOUR_BASE64_ENCODED_CREDENTIALS` 与您Base64编码的 `public_key:secret_key`。
         Authorization: "Basic ${YOUR_BASE64_ENCODED_CREDENTIALS}"
       protocol: http/protobuf

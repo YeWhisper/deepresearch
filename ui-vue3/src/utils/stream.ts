@@ -71,6 +71,8 @@ export class XStreamBody {
         event: 'message',
         data: chunk.data,
       }
+      console.log(chunk);
+      
       this.lines.value = [...this.lines.value, newChunk]
       if (updateHandle) {
         // 解析后端返回的数据，提取content字段
