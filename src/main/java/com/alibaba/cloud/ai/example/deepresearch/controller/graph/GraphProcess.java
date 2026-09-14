@@ -34,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.metadata.ChatGenerationMetadata;
+import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.http.codec.ServerSentEvent;
@@ -299,7 +300,12 @@ public class GraphProcess {
 			.orElse("");
 
 		String textContent = streamingOutput.chunk() == null
-				? streamingOutput.chatResponse().getResult().getOutput().getText() : streamingOutput.chunk();
+				? Optional.ofNullable(streamingOutput.chatResponse())
+					.map(ChatResponse::getResult)
+					.map(Generation::getOutput)
+					.map(AssistantMessage::getText)
+					.orElse("")
+				: streamingOutput.chunk();
 		Map<String, Serializable> response = Map.of(nodeName, textContent, "step_title", stepTitle, "visible",
 				prefixEnum.isVisible(), "finishReason", finishReason, "graphId", graphId);
 

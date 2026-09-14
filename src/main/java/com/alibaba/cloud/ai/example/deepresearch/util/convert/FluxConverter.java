@@ -50,7 +50,7 @@ public interface FluxConverter {
 
 		public Flux<GraphResponse<StreamingOutput>> build(Flux<ChatResponse> flux) {
 			return this.buildInternal(flux,
-					(chatResponse) -> new StreamingOutput(chatResponse.getResult().getOutput().getText(),
+					(chatResponse) -> new StreamingOutput(Objects.toString(chatResponse.getResult().getOutput().getText(), ""),
 							this.startingNode, this.startingState));
 		}
 
@@ -65,26 +65,17 @@ public interface FluxConverter {
 			Objects.requireNonNull(this.mapResult, "mapResult cannot be null");
 			AtomicReference<ChatResponse> result = new AtomicReference<>(null);
 			Consumer<ChatResponse> mergeMessage = (response) -> result.updateAndGet((lastResponse) -> {
-				if (lastResponse == null) {
+				AssistantMessage currentMessage = response.getResult().getOutput();
+				if (currentMessage.hasToolCalls()) {
 					return response;
 				}
-				else {
-					AssistantMessage currentMessage = response.getResult().getOutput();
-					if (currentMessage.hasToolCalls()) {
-						return response;
-					}
-					else {
-						String lastMessageText = Objects.requireNonNull(lastResponse.getResult().getOutput().getText(),
-								"lastResponse text cannot be null");
-						String currentMessageText = currentMessage.getText();
-						AssistantMessage newMessage = new AssistantMessage(
-								currentMessageText != null ? lastMessageText.concat(currentMessageText)
-										: lastMessageText,
-								currentMessage.getMetadata(), currentMessage.getToolCalls(), currentMessage.getMedia());
-						Generation newGeneration = new Generation(newMessage, response.getResult().getMetadata());
-						return new ChatResponse(List.of(newGeneration), response.getMetadata());
-					}
-				}
+				String lastMessageText = lastResponse == null ? ""
+						: Objects.toString(lastResponse.getResult().getOutput().getText(), "");
+				String currentMessageText = Objects.toString(currentMessage.getText(), "");
+				AssistantMessage newMessage = new AssistantMessage(lastMessageText.concat(currentMessageText),
+						currentMessage.getMetadata(), currentMessage.getToolCalls(), currentMessage.getMedia());
+				Generation newGeneration = new Generation(newMessage, response.getResult().getMetadata());
+				return new ChatResponse(List.of(newGeneration), response.getMetadata());
 			});
 			return flux.filter((response) -> response.getResult() != null && response.getResult().getOutput() != null)
 				.doOnNext(mergeMessage)
