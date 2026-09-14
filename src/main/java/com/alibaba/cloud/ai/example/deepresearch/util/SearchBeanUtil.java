@@ -41,7 +41,7 @@ public class SearchBeanUtil {
 	}
 
 	/**
-	 * Retrieve the service object based on the enum object.
+	 * 根据枚举对象检索服务对象。
 	 */
 	public Optional<SearchService> getSearchService(SearchEnum searchEnum) {
 		for (SearchEnum defined : searchList) {

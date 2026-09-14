@@ -51,6 +51,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * report 报告
  * @author yingzi
  * @since 2025/5/18 15:58
  */
