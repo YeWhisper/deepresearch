@@ -25,7 +25,10 @@ import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.util.Assert;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 import java.util.Map;
@@ -52,11 +55,15 @@ public class AgentModelsConfiguration implements InitializingBean {
 
     private final ToolCallingManager toolCallingManager;
 
+    private final ClientHttpRequestFactory clientHttpRequestFactory;
+
     private final BiConsumer<String, DeepSeekChatModel> registerConsumer;
 
     public AgentModelsConfiguration(ModelParamRepository modelParamRepository, ConfigurableBeanFactory beanFactory,
-        DeepSeekConnectionProperties deepSeekConnectionProperties, ToolCallingManager toolCallingManager) {
+        DeepSeekConnectionProperties deepSeekConnectionProperties, ToolCallingManager toolCallingManager,
+        ClientHttpRequestFactory clientHttpRequestFactory) {
         this.toolCallingManager = toolCallingManager;
+        this.clientHttpRequestFactory = clientHttpRequestFactory;
         Assert.notNull(modelParamRepository, "ModelParamRepository must not be null");
         this.commonProperties = deepSeekConnectionProperties;
         // load models from the repository
@@ -75,7 +82,12 @@ public class AgentModelsConfiguration implements InitializingBean {
         return models.stream().filter(Objects::nonNull)
             .collect(Collectors.toMap(ModelParamRepositoryImpl.AgentModel::name,
                 model -> DeepSeekChatModel.builder()
-                    .deepSeekApi(DeepSeekApi.builder().apiKey(commonProperties.getApiKey()).build())
+                    .deepSeekApi(DeepSeekApi.builder().apiKey(commonProperties.getApiKey())
+                        .baseUrl(commonProperties.getBaseUrl())
+                        // Read the complete non-streaming response before Jackson parses it.
+                        .restClientBuilder(RestClient.builder()
+                            .requestFactory(new BufferingClientHttpRequestFactory(clientHttpRequestFactory)))
+                        .build())
                     .toolCallingManager(toolCallingManager)
                     .defaultOptions(DeepSeekChatOptions.builder().model(model.modelName())
                         .temperature(DashScopeChatModel.DEFAULT_TEMPERATURE).build())

@@ -27,16 +27,30 @@ spring:
           min-idle: 0
           max-wait: -1ms
   ai:
+    model:
+      chat: deepseek
+      embedding: dashscope
+      image: none
+      video: none
+      rerank: none
+      audio:
+        speech: none
+        transcription: none
     deepseek:
       api-key: ${DEEPSEEK_API_KEY}
       base-url: https://api.deepseek.com
-      embedding:
-        options:
-          model:
       chat:
         options:
           model: deepseek-flash
           temperature: 0.7
+    dashscope:
+      agent:
+        enabled: false
+      embedding:
+        api-key: ${DASHSCOPE_API_KEY}
+        options:
+          model: text-embedding-v3
+        enabled: true
 
     mcp:
       client:
@@ -104,7 +118,7 @@ spring:
           researcher: 4
           coder: 4
         rag:
-          enabled: false
+          enabled: true
           # 可以设置为 'simple' 或 'elasticsearch'
           vector-store-type: simple
           data:

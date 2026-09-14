@@ -37,6 +37,7 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.ai.vectorstore.filter.FilterExpressionBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class DefaultHybridRagProcessor implements HybridRagProcessor {
 
 	private final RagProperties ragProperties;
 
-	public DefaultHybridRagProcessor(@Qualifier("ragVectorStore") VectorStore vectorStore, RestClient restClient,
+	public DefaultHybridRagProcessor(@Qualifier("ragVectorStore") VectorStore vectorStore, @Nullable RestClient restClient,
 			EmbeddingModel embeddingModel, ChatClient.Builder chatClientBuilder, RagProperties ragProperties,
 			RrfFusionStrategy rrfFusionStrategy) {
 		this.vectorStore = vectorStore;

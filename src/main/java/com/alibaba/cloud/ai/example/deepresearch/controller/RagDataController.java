@@ -13,8 +13,10 @@
 
 package com.alibaba.cloud.ai.example.deepresearch.controller;
 
+import com.alibaba.cloud.ai.example.deepresearch.config.rag.RagProperties;
 import com.alibaba.cloud.ai.example.deepresearch.model.ApiResponse;
 import com.alibaba.cloud.ai.example.deepresearch.service.VectorStoreDataIngestionService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +29,7 @@ import java.util.*;
  * @author hupei
  */
 @RestController
+@ConditionalOnProperty(prefix = RagProperties.RAG_PREFIX, name = "enabled", havingValue = "true")
 @RequestMapping("/api/rag/")
 public class RagDataController {
 

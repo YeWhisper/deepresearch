@@ -58,6 +58,7 @@ public class RagVectorStoreConfiguration {
 	static class SimpleVectorStoreConfiguration {
 
 		@Bean(name = { "simpleVectorStore", "ragVectorStore" })
+		@ConditionalOnProperty(prefix = RagProperties.RAG_PREFIX, name = "enabled", havingValue = "true")
 		public VectorStore simpleVectorStore(EmbeddingModel embeddingModel, RagProperties ragProperties) {
 			logger.info("Initializing SimpleVectorStore.");
 			var simpleVectorStore = SimpleVectorStore.builder(embeddingModel).build();
@@ -79,6 +80,7 @@ public class RagVectorStoreConfiguration {
 	static class ElasticsearchVectorStoreConfiguration {
 
 		@Bean
+		@ConditionalOnProperty(prefix = RagProperties.RAG_PREFIX, name = "enabled", havingValue = "true")
 		public RestClient elasticsearchRestClient(RagProperties ragProperties) {
 			logger.info("Initializing Elasticsearch RestClient.");
 			RagProperties.Elasticsearch esProps = ragProperties.getElasticsearch();
@@ -97,6 +99,7 @@ public class RagVectorStoreConfiguration {
 		}
 
 		@Bean(name = { "ragElasticsearchVectorStore", "ragVectorStore" })
+		@ConditionalOnProperty(prefix = RagProperties.RAG_PREFIX, name = "enabled", havingValue = "true")
 		public VectorStore elasticsearchVectorStore(RestClient elasticsearchRestClient, EmbeddingModel embeddingModel,
 				RagProperties ragProperties) {
 			RagProperties.Elasticsearch esProps = ragProperties.getElasticsearch();
