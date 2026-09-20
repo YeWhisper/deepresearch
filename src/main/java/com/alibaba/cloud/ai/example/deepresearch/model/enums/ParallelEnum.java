@@ -17,12 +17,15 @@
 package com.alibaba.cloud.ai.example.deepresearch.model.enums;
 
 /**
+ *  并行枚举
  * @author yingzi
  * @since 2025/6/14
  */
 
 public enum ParallelEnum {
-
+    /**
+     * 研究 and 程序员
+     */
 	RESEARCHER("researcher"), CODER("coder");
 
 	private final String value;

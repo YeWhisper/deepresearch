@@ -138,12 +138,17 @@ public class RrfHybridElasticsearchRetriever implements DocumentRetriever {
 			Builder knnBuilder = sr.index(indexName)
 				.postFilter(filter)
 				.knn(knn -> knn.queryVector(EmbeddingUtils.toList(vector))
+                    // 向量被视为匹配的最小相似度
 					.similarity(0.0f)
+                    // 最佳匹配数大小
 					.k(windowSize)
+                    // 字段
 					.field("embedding")
+                    // 最大匹配数
 					.numCandidates(Math.max(windowSize * 2, 10))
 					.boost(knnBoost));
 			if (hasHybrid) {
+                // 开启混合检索
 				return buildHybridSearch(text, knnBuilder);
 			}
 			return knnBuilder;

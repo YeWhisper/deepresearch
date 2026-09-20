@@ -28,7 +28,11 @@ import java.util.List;
  * @since 2025/8/6
  */
 public interface SessionContextService {
-
+    /**
+     * 添加会话历史记录
+     * @param graphId
+     * @param sessionHistory
+     */
 	void addSessionHistory(GraphId graphId, SessionHistory sessionHistory);
 
 	List<String> getGraphThreadIds(String sessionId);

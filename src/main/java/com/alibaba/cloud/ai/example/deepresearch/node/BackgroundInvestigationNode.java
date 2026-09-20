@@ -47,6 +47,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ *
+ *  背景调查节点
  * @author yingzi
  * @since 2025/5/17 18:37
  */
@@ -54,11 +56,17 @@ import java.util.stream.Collectors;
 public class BackgroundInvestigationNode implements NodeAction {
 
 	private static final Logger logger = LoggerFactory.getLogger(BackgroundInvestigationNode.class);
-
+    /**
+     * 信息核查服务
+     */
 	private final InfoCheckService infoCheckService;
-
+    /**
+     *  搜索信息服务
+     */
 	private final SearchInfoService searchInfoService;
-
+    /**
+     * 智能代理选择辅助服务
+     */
 	private final SmartAgentSelectionHelperService smartAgentSelectionHelper;
 
 	private final SessionContextService sessionContextService;

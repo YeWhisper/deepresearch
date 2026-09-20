@@ -68,6 +68,7 @@ public class AgentModelsConfiguration implements InitializingBean {
         this.commonProperties = deepSeekConnectionProperties;
         // load models from the repository
         this.models = modelParamRepository.loadModels();
+        // 灵活地按需注册，不必在启动时静态定义所有 Bean
         this.registerConsumer = (key, value) -> beanFactory.registerSingleton(key.concat(BEAN_NAME_SUFFIX),
             ChatClient.create(value).mutate());
     }

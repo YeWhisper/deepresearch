@@ -126,7 +126,7 @@ public class RrfFusionStrategy implements FusionStrategy, DocumentPostProcessor 
 	/**
 	 * 按来源分组文档
 	 */
-	private Map<String, List<Document>> groupDocumentsBySource(List<Document> documents) {
+	private Map<String, List<Document>>  groupDocumentsBySource(List<Document> documents) {
 		Map<String, List<Document>> groups = new LinkedHashMap<>();
 
 		for (Document doc : documents) {

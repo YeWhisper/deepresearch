@@ -65,13 +65,17 @@ public class DefaultHybridRagProcessor implements HybridRagProcessor {
 	private final MultiQueryExpander queryExpander;
 
 	private final TranslationQueryTransformer queryTransformer;
-
+    /**
+     * 加强问题的质量
+     */
 	private final HyDeTransformer hyDeTransformer;
 
 	private final DocumentSelectFirstProcess documentPostProcessor;
 
 	private final RrfFusionStrategy rrfFusionStrategy;
-
+    /**
+     * rag配置
+     */
 	private final RagProperties ragProperties;
 
 	public DefaultHybridRagProcessor(@Qualifier("ragVectorStore") VectorStore vectorStore, @Nullable RestClient restClient,
