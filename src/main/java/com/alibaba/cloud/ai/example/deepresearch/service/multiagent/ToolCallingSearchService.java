@@ -80,7 +80,7 @@ public class ToolCallingSearchService {
 
 	/**
 	 * 根据搜索平台执行工具调用搜索
-	 * @param platform 搜索平台
+	 * @param platform 搜索平台 百度 阿里
 	 * @param query 搜索查询
 	 * @return 搜索结果
 	 */

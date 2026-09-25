@@ -31,7 +31,7 @@ import java.util.Map;
 public class ChatRequestProcess {
 
 	/**
-	 * Creates a default ChatRequest instance or set some default value for an instance.
+	 * 创建默认的ChatRequest实例或为某个实例设置默认值。
 	 */
 	public static ChatRequest getDefaultChatRequest(ChatRequest chatRequest, SearchBeanUtil searchBeanUtil) {
 		if (chatRequest == null) {

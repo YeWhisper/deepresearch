@@ -110,7 +110,7 @@ public class SmartAgentSelectionHelperService {
 			SearchEnum fallbackEnum = state.value("search_engine", SearchEnum.class).orElse(SearchEnum.TAVILY);
 			return new SmartAgentUtil.SearchSelectionResult(fallbackEnum, null, AgentType.GENERAL_RESEARCH, false);
 		}
-
+        // 没有智能代理可用
 		try {
 			AgentType agentType = classifyQueryAndLog(query);
 			SearchPlatform selectedPlatform = searchPlatformSelectionService.getSelectedSearchPlatform(agentType,

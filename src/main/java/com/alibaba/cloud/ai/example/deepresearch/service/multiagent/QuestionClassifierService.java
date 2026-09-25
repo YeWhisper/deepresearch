@@ -55,10 +55,14 @@ public class QuestionClassifierService {
 		if (question == null || question.trim().isEmpty()) {
 			return AgentType.GENERAL_RESEARCH;
 		}
-
-		// 直接使用AI模型进行问题分类决策
+        String typeAll = "";
+        AgentType[] values = AgentType.values();
+        for (AgentType value : values) {
+            typeAll += value.name() + "\n";
+        }
+        // 直接使用AI模型进行问题分类决策
 		String aiClassification = classifierClient.prompt()
-			.user("请分析以下问题并返回最适合的Agent类型代码：\n\n" + question)
+			.user("请分析以下问题并返回最适合的Agent类型代码：\n\n" + "agent类型:" + typeAll + "问题:" + question)
 			.call()
 			.content();
 

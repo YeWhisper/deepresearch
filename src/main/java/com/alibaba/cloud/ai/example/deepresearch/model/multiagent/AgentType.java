@@ -23,7 +23,9 @@ package com.alibaba.cloud.ai.example.deepresearch.model.multiagent;
  * @since 2025/07/17
  */
 public enum AgentType {
-
+    /**
+     * agent 类型
+     */
 	ACADEMIC_RESEARCH("academic_research", "学术研究Agent", "专门处理学术论文、科研项目、技术研究、学术会议、期刊论文等学术相关问题",
 			"prompts/multiagent/academic-researcher.md",
 			"学术研究要求：请确保引用格式规范，优先引用高质量的学术资源。文末参考资料格式：\n- [论文标题 - 作者, 期刊/会议, 年份](URL)\n\n- [另一篇论文](URL)"),

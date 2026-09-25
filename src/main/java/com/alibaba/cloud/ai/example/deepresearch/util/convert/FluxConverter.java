@@ -66,6 +66,7 @@ public interface FluxConverter {
 			AtomicReference<ChatResponse> result = new AtomicReference<>(null);
 			Consumer<ChatResponse> mergeMessage = (response) -> result.updateAndGet((lastResponse) -> {
 				AssistantMessage currentMessage = response.getResult().getOutput();
+                // 有工具调用
 				if (currentMessage.hasToolCalls()) {
 					return response;
 				}
@@ -80,6 +81,7 @@ public interface FluxConverter {
 			return flux.filter((response) -> response.getResult() != null && response.getResult().getOutput() != null)
 				.doOnNext(mergeMessage)
 				.map((next) -> GraphResponse.of(outputMapper.apply(next)))
+                //前面的流正常结束后，再追加一个最终mono事件
 				.concatWith(Mono.fromCallable(() -> {
 					Map<String, Object> completionResult = this.mapResult.apply(result.get());
 					return GraphResponse.done(completionResult);

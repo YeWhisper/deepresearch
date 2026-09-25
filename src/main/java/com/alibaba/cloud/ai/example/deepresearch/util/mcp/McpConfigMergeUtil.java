@@ -40,9 +40,13 @@ public class McpConfigMergeUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(McpConfigMergeUtil.class);
 
-	/**
-	 * 合并静态配置和动态配置
-	 */
+    /**
+     * 合并静态配置和动态配置
+     * @param staticConfig 静态配置
+     * @param runtimeSettings 运行时设置
+     * @param objectMapper mapper
+     * @return
+     */
 	public static Map<String, McpAssignNodeProperties.McpServerConfig> mergeAgent2McpConfigs(
 			Map<String, McpAssignNodeProperties.McpServerConfig> staticConfig, Map<String, Object> runtimeSettings,
 			ObjectMapper objectMapper) {
@@ -70,6 +74,7 @@ public class McpConfigMergeUtil {
 
 					// 合并该Agent的服务器配置
 					List<McpAssignNodeProperties.McpServerInfo> mergedServers = mergeAgent2McpServers(
+                            // list info
 							result.getOrDefault(agentName, new McpAssignNodeProperties.McpServerConfig(List.of()))
 								.mcpServers(),
 							dynamicConfig.mcpServers());
@@ -106,6 +111,7 @@ public class McpConfigMergeUtil {
 
 	/**
 	 * 创建Transport的辅助方法
+     *     运输
 	 */
 	public static List<NamedClientMcpTransport> createAgent2McpTransports(String agentName,
 			McpAssignNodeProperties.McpServerConfig config, WebClient.Builder webClientBuilderTemplate,

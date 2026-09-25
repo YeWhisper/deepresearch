@@ -100,7 +100,7 @@ public class ResearcherNode implements NodeAction {
 			return updated;
 		}
 
-		// Handle reflection logic
+		// 处理反射逻辑
 		if (reflectionProcessor != null) {
 			ReflectionProcessor.ReflectionHandleResult reflectionResult = reflectionProcessor
 				.handleReflection(assignedStep, nodeName, "researcher");
@@ -112,6 +112,7 @@ public class ResearcherNode implements NodeAction {
 		}
 
 		// Mark step as processing
+        // 将步骤标记为处理中
 		assignedStep.setExecutionStatus(StateUtil.EXECUTION_STATUS_PROCESSING_PREFIX + nodeName);
 
 		try {
@@ -125,6 +126,7 @@ public class ResearcherNode implements NodeAction {
 			messages.add(taskMessage);
 
 			// Add researcher-specific citation reminder
+			// 添加研究人员特定的引用提醒
 			Message citationMessage = new UserMessage(
 					"IMPORTANT: DO NOT include inline citations in the text. Instead, track all sources and include a References section at the end using link reference format. Include an empty line between each citation for better readability. Use this format for each reference:\\n- [Source Title](URL)\\n- [Source Title](URL)");
 			messages.add(citationMessage);
@@ -172,6 +174,7 @@ public class ResearcherNode implements NodeAction {
 				.doOnError(error -> StateUtil.handleStepError(assignedStep, nodeName, error, logger));
 
 			// Add step title
+			// 添加步骤标题
 			boolean isReflectionNode = assignedStep.getReflectionHistory() != null
 					&& !assignedStep.getReflectionHistory().isEmpty();
 			String prefix = isReflectionNode ? StreamNodePrefixEnum.RESEARCHER_REFLECT_LLM_STREAM.getPrefix()
@@ -186,6 +189,7 @@ public class ResearcherNode implements NodeAction {
 				.startingState(state)
 				.mapResult(response -> {
 					// Only handle successful responses - errors are handled in doOnError
+					// 只有处理成功的响应，错误在doOnError中会被处理。
 					String researchContent = response.getResult().getOutput().getText();
 					assignedStep
 						.setExecutionStatus(ReflectionUtil.getCompletionStatus(reflectionProcessor != null, nodeName));
@@ -202,6 +206,7 @@ public class ResearcherNode implements NodeAction {
 		}
 		catch (Exception e) {
 			// Handle any exception that occurs before or during stream setup
+			// 处理在流设置之前或期间发生的任何异常
 			StateUtil.handleStepError(assignedStep, nodeName, e, logger);
 			return updated;
 		}

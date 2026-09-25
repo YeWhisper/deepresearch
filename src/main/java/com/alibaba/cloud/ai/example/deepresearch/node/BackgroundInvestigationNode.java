@@ -89,7 +89,7 @@ public class BackgroundInvestigationNode implements NodeAction {
 
 	@Override
 	public Map<String, Object> apply(OverAllState state) throws Exception {
-		logger.info("background investigation node is running.");
+		logger.info("---------------------------背景调查节点正在运行-------------------------------");
 
 		Map<String, Object> resultMap = new HashMap<>();
 		List<List<Map<String, String>>> resultsList = new ArrayList<>();

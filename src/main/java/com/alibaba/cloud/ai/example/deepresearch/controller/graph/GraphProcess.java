@@ -90,8 +90,10 @@ public class GraphProcess {
 	public void handleHumanFeedback(GraphId graphId, ChatRequest chatRequest, Map<String, Object> objectMap,
 			RunnableConfig runnableConfig, Sinks.Many<ServerSentEvent<String>> sink) throws GraphRunnerException {
 		objectMap.put("feedback", chatRequest.interruptFeedback());
+        // 获取状态快照 包含状态OverAllState
 		StateSnapshot stateSnapshot = compiledGraph.getState(runnableConfig);
 		OverAllState state = stateSnapshot.state();
+        // 重新开始
 		state.withResume();
 		state.withHumanFeedback(new OverAllState.HumanFeedback(objectMap, "research_team"));
 		Flux<NodeOutput> resultFuture = compiledGraph.fluxStreamFromInitialNode(state, runnableConfig);
@@ -109,7 +111,6 @@ public class GraphProcess {
 	}
 
 	public void processStream(GraphId graphId, Flux<NodeOutput> generator, Sinks.Many<ServerSentEvent<String>> sink) {
-	//Flux<NodeOutput> generator = compiledGraph.fluxStream(objectMap, runnableConfig);
 
 		final String graphIdStr = this.safeObjectToJson(graphId);
 		// 创建一个任务，且遇见中断时停止图的运行

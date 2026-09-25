@@ -66,6 +66,7 @@ public class McpService {
 		List<String> availableServices = services.stream()
 			.filter(McpServerInfo::enabled)
 			.map(McpServerInfo::serviceName)
+            // 去重
 			.distinct()
 			.toList();
 

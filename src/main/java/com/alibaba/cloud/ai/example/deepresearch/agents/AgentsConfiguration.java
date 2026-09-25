@@ -72,8 +72,9 @@ public class AgentsConfiguration {
 
 	@Autowired(required = false)
 	private Map<String, SyncMcpToolCallbackProvider> agent2SyncMcpToolCallbackProvider;
+    private ChatClient.Builder infoCheckChatClientBuilder;
 
-	/**
+    /**
 	 * Return the tool name array that have corresponding beans.
 	 */
 	private String[] getAvailableTools(String... toolNames) {
@@ -194,7 +195,8 @@ public class AgentsConfiguration {
 
 	@Bean
 	public ChatClient infoCheckAgent(ChatClient.Builder infoCheckChatClientBuilder) {
-		return infoCheckChatClientBuilder.build();
+        this.infoCheckChatClientBuilder = infoCheckChatClientBuilder;
+        return infoCheckChatClientBuilder.build();
 	}
 
 	@Bean
