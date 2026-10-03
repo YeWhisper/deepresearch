@@ -9,7 +9,7 @@ public class Text {
         int b = 1;
         assert a == b ;
         System.out.println("1");
-        System.out.println("hello ye wj 1");
+        System.out.println("hello ye wj 2");
     }
 
 }
